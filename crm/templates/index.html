@@ -1,0 +1,67 @@
+{% include "header.html" %}
+
+
+<style>
+html, body {
+    height:100%;
+    width:100%;
+    margin:0;
+    padding:0;
+}
+#hideMe {
+    -moz-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 5s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+@keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        overflow:hidden;
+    }
+}
+@-webkit-keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        visibility:hidden;
+    }
+}
+</style>
+<body>
+logged in
+<div class="container">
+    <div class="container" style="background-color: #90ee90">
+    <div id="hideMe">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <b>{{ message }}</b>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+    </div>
+    <h1>PT Client CRM</h1>
+    <h2>todo:</h2>
+    <ol>
+        <li><p>stripe api to send invoices</p></li>
+        <li><p>new leads page. when successful, auto move to all clients page with new id and a complete profile</p></li>
+        <li><p>overview page as home page - build nearer to end to include more info about total overview</p></li>
+        <li><p>priority - delete bookings</p></li>
+        <li><p>priority - update bookings</p></li>
+        <li><p>link bookings to client profile page</p></li>
+        <li><p>priority - Make all inputs for booking an event text inputs and not readonly so that they can be adjusted once autofilled</p></li>
+    </ol>
+</div>
+create users - user id = name+number
+
+add user id to created meetings
+for all events search for user id
+</body>

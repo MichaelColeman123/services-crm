@@ -1,0 +1,440 @@
+{% include "header.html" %}
+<style>
+        .box {
+            background-color: black;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        p {
+            font-size: 17px;
+            align-items: center;
+        }
+        .box a {
+            display: inline-block;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 3px;
+        }
+        .modal {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(114, 106, 110, 0.8);
+            transition: all 0.4s;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .content {
+            position: absolute;
+            background: white;
+            width: 400px;
+            padding: 1em 2em;
+            border-radius: 4px;
+        }
+        .modal:target {
+            visibility: visible;
+            opacity: 1;
+        }
+        .box-close {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            color: #fe0606;
+            text-decoration: none;
+            font-size: 30px;
+        }
+    </style>
+<div class="container">
+    <div class="main-body">
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <div class="mt-3">
+                      {% for info in selected_client: %}
+                      <h4>{{ info["first_name"] }} {{ info["last_name"] }}</h4>
+                      <h5 class="text-secondary mb-1">{{ info["client_goals"] }}</h5>
+                      {% if info["weeks_coached"] < 0: %}
+                      <p class="text-secondary mb-1">Client has not started yet.</p>
+                      {% else: %}
+                      <p class="text-secondary mb-1">Client for {{info["weeks_coached"]}} weeks</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-3">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0">Client Since</h6>
+                    {% if info["weeks_coached"] < 0: %}
+                    <span class="text-secondary">Starting - {{ info["start_date"] }}</span>
+                    {% else: %}
+                    <span class="text-secondary">{{ info["start_date"]}}</span>
+                    {% endif %}
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0">End Date</h6>
+                    <span class="text-secondary">data. if still client "n/a"</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0">Last Payment Date</h6>
+                    <span class="text-secondary">last payment date</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0">Payed For</h6>
+                    <span class="text-secondary">amount of weeks</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0">Next Invoice Due</h6>
+                    <span class="text-secondary">date when invoice is due</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0">Total Payed</h6>
+                    <span class="text-secondary">total amount payed</span>
+                  </li>
+                  </ul>
+              </div>
+              <br>
+              <form method="post">
+              <h4 style="text-align:center">Notes:</h4>
+                <div class="input-group col-12">
+                  <textarea name="client_notes" class="form-control" rows="4">{{info['client_notes']}}</textarea>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-secondary" name="btn" value="update_notes">Confirm Update</button>
+              </form>
+              </div>
+            <div id="delete-popup" class="modal">
+              <div class="content">
+                <form method="post">
+                  <h1 style="color:red;">Warning!</h1>
+                  <p>Continuing will permanently delete this client.</p>
+                  <a href="#" type="button" class="btn btn-dark">Cancel</a>
+                  <button type="submit" class="btn btn-danger" style="margin:10px;" name="btn" value="delete">Confirm</button>
+                </form>
+                <a href="#" class="box-close">x</a>
+              </div>
+
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">First Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ info["first_name"] }} {{ info["last_name"] }} <a href="#update_name" style="float:right; margin-bottom:10px;margin-right:80px" type="button" class="btn btn-light col-3 pb-1" >Change Name</a>
+                    <div id="update_name" class="modal">
+                        <div class="content">
+                          <form method="post" action="#">
+                            <h1>Update Name</h1>
+                            <p>Change the name of the current client.</p>
+                              <div class="row g-3">
+                                <div class="row g-3">
+                                  <div class="col-sm-6">
+                                      <br>
+                                    <label for="firstName" class="form-label">First name</label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="John" name="new_first_name">
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <br>
+                                    <label for="lastName" class="form-label">Last name</label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="Doe" name="new_last_name">
+                                  </div>
+                                </div>
+                                </div>
+                            <a href="#" type="button" class="btn btn-dark">Cancel</a>
+                            <button type="submit" class="btn btn-secondary" style="margin:10px;" name="btn" value="updated_name">Confirm</button>
+                          </form>
+                          <a href="#" class="box-close">x</a>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                  <hr>
+                    <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0 mt-2">Client Status</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary pb-1">
+                      {{ info["is_client"] }} <a href="#client_status" style="float:right; margin-bottom:10px;margin-right:80px" type="button" class="btn btn-light col-3 pb-1" >Change Status</a>
+                    <div id="client_status" class="modal">
+                        <div class="content">
+                          <form method="post" action="#">
+                            <h1>Change client Status</h1>
+                            <p>Change the status of the client.</p>
+                              <div class="row g-3">
+                                <label>Status:</label>
+                                  <div class="list-group">
+                                      <div class="list-group col-2" style="width:175px">
+                                      <label class="list-group-item d-flex gap-2">
+                                        <input class="form-check-input flex-shrink-0" type="radio" id="status_radio1" name="StatusRadio" value="Current Client">
+                                        <span>
+                                         Current Client
+                                        </span>
+                                      </label>
+                                      <label class="list-group-item d-flex gap-2">
+                                        <input class="form-check-input flex-shrink-0" type="radio" name="StatusRadio" id="status_radio2" value="Starting Soon">
+                                        <span>
+                                          Starting Soon
+                                        </span>
+                                      </label>
+                                      <label class="list-group-item d-flex gap-2">
+                                        <input class="form-check-input flex-shrink-0" type="radio" name="StatusRadio" id="status_radio3" value="Old Client">
+                                        <span>
+                                          Old Client
+                                        </span>
+                                      </label>
+                                      <label class="list-group-item d-flex gap-2">
+                                        <input class="form-check-input flex-shrink-0" type="radio" name="StatusRadio" id="status_radio4" value="Paused Client">
+                                        <span>
+                                          Paused Client
+                                        </span>
+                                      </label>
+                                      </div>
+                                  </div>
+                                </div>
+                            <br>
+                            <a href="#" type="button" class="btn btn-dark">Cancel</a>
+                            <button type="submit" class="btn btn-secondary" style="margin:10px;" name="btn" value="new_status">Confirm</button>
+                          </form>
+                          <a href="#" class="box-close">x</a>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0" style="margin-top:10px">D.O.B</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ info["date_of_birth"]}} <a href="#date_of_birth" style="float:right; margin-bottom:10px;margin-right:80px" type="button" class="btn btn-light col-3 pb-1" >Change D.O.B</a>
+                      <div id="date_of_birth" class="modal">
+                        <div class="content">
+                          <form method="post" action="#">
+                            <h1>Update D.O.B</h1>
+                            <p>Change the date of birth if you made a mistake.</p>
+                              <div class="row g-3">
+                                <div>
+                                    <label class="form-label">D.O.B</label>
+                                    <input type="date" class="form-control" name="date_of_birth" style="width:43%">
+                                </div>
+                                </div>
+                            <a href="#" type="button" class="btn btn-dark">Cancel</a>
+                            <button type="submit" class="btn btn-secondary" style="margin:10px;" name="btn" value="new_dob">Confirm</button>
+                          </form>
+                          <a href="#" class="box-close">x</a>
+                        </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0 pb-3" >Age</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{info["age"]}} years old
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0 mt-2">Gender</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary pb-1">
+                      {{ info["gender"] }} <a href="#gender" style="float:right; margin-bottom:10px;margin-right:60px" type="button" class="btn btn-light col-3 pb-1" >Change Gender</a>
+                    <div id="gender" class="modal">
+                        <div class="content">
+                          <form method="post" action="#">
+                            <h1>Change Gender</h1>
+                            <p>Change the gender if you made a mistake.</p>
+                              <div class="row g-3">
+                                <label>Gender:</label>
+                                  <div class="list-group">
+                                      <div class="list-group col-2" style="width:175px">
+                                      <label class="list-group-item d-flex gap-2">
+                                        <input class="form-check-input flex-shrink-0" type="radio" id="gender_radio1" name="GenderRadio" value="Male">
+                                        <span>
+                                         Male
+                                        </span>
+                                      </label>
+                                      <label class="list-group-item d-flex gap-2">
+                                        <input class="form-check-input flex-shrink-0" type="radio" name="GenderRadio" id="gender_radio2" value="Female">
+                                        <span>
+                                          Female
+                                        </span>
+                                      </label>
+                                      <label class="list-group-item d-flex gap-2">
+                                        <input class="form-check-input flex-shrink-0" type="radio" name="GenderRadio" id="gender_radio3" value="Other">
+                                        <span>
+                                          Other
+                                        </span>
+                                      </label>
+                                      </div>
+                                  </div>
+                                </div>
+                            <br>
+                            <a href="#" type="button" class="btn btn-dark">Cancel</a>
+                            <button type="submit" class="btn btn-secondary" style="margin:10px;" name="btn" value="new_gender">Confirm</button>
+                          </form>
+                          <a href="#" class="box-close">x</a>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ info["email"] }} <a href="#update_email" style="float:right; margin-bottom:10px;margin-right:60px" type="button" class="btn btn-light col-3 pb-1" >Change Email</a>
+                    <div id="update_email" class="modal">
+                        <div class="content">
+                          <form method="post" action="#">
+                            <h1>Update email</h1>
+                            <p>Change the email of the current client.</p>
+                              <div class="row g-3">
+                                <div class="col-sm-6">
+                                  <label for="new_email" class="form-label">New Email</label>
+                                  <input type="text" class="form-control" id="new_email" style="width:250px" placeholder="{{ info['email']}}" name="new_email">
+                                </div>
+                                </div>
+                            <a href="#" type="button" class="btn btn-dark">Cancel</a>
+                            <button type="submit" class="btn btn-secondary" style="margin:10px;" name="btn" value="updated_email">Confirm</button>
+                          </form>
+                          <a href="#" class="box-close">x</a>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Phone</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ info["phone_number"] }} <a href="#number" style="float:right; margin-bottom:10px;margin-right:60px" type="button" class="btn btn-light col-3 pb-1" >Change Number</a>
+                    <div id="number" class="modal">
+                        <div class="content">
+                          <form method="post" action="#">
+                            <h1>Update phone number</h1>
+                            <p>Change the phone number of the current client.</p>
+                              <div class="row g-3">
+                                <div class="col-sm-6">
+                                  <label for="new_number" class="form-label">New Number</label>
+                                  <input type="text" class="form-control" id="new_number" style="width:250px" placeholder="{{ info['phone_number']}}" name="new_number">
+                                </div>
+                                </div>
+                            <a href="#" type="button" class="btn btn-dark">Cancel</a>
+                            <button type="submit" class="btn btn-secondary" style="margin:10px;" name="btn" value="updated_number">Confirm</button>
+                          </form>
+                          <a href="#" class="box-close">x</a>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Goals</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ info["client_goals"] }} <a href="#goals" style="float:right; margin-bottom:10px;margin-right:60px" type="button" class="btn btn-light col-3 pb-1" >Change Goals</a>
+                    <div id="goals" class="modal">
+                        <div class="content">
+                          <form method="post" action="#">
+                            <h1>Update goals</h1>
+                            <p>Change the goals of the current client.</p>
+                              <div class="row g-3">
+                                <div class="col-sm-6">
+                                  <label for="new_goal" class="form-label">New Goals</label>
+                                  <input type="text" class="form-control" id="new_goal" style="width:250px" placeholder="{{ info['client_goals']}}" name="new_goals">
+                                </div>
+                                </div>
+                            <a href="#" type="button" class="btn btn-dark">Cancel</a>
+                            <button type="submit" class="btn btn-secondary" style="margin:10px;" name="btn" value="updated_goals">Confirm</button>
+                          </form>
+                          <a href="#" class="box-close">x</a>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <br>
+              <div class="row gutters-sm">
+                <div class="col-sm-6 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
+                      <small>Web Design</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <small>Website Markup</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <small>One Page</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <small>Mobile Template</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <small>Backend API</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
+                      <small>Web Design</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <small>Website Markup</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <small>One Page</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <small>Mobile Template</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <small>Backend API</small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                      {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <a href="#delete-popup" style="margin:40px 20%" type="button" class="btn btn-danger col-6" >Delete Client</a>
+    </div>
+</div>

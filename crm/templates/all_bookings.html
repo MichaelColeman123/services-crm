@@ -1,0 +1,47 @@
+{% include "header.html" %}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="container">
+  <h4 class="mb-3">All Bookings</h4>
+  <form method="post" style="margin-left: 39%">
+    <button name="client_type" class="btn btn-secondary" value="all_clients">4 Week Call</button>
+    <button name="client_type" class="btn btn-secondary" value="active_clients">New Client Call</button>
+  </form>
+    <table class="table">
+      <thead>
+        <tr style="border-bottom: 1px solid #000000">
+          <th scope="col">Date</th>
+          <th scope="col">Start Time</th>
+          <th scope="col">Duration</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone No</th>
+          <th scope="col">Event Type</th>
+          <th scope="col" style="margin-left: 50%;">Edit</th>
+        </tr>
+      </thead>
+      {% for event in event_summary: %}
+      <tbody>
+        <tr style="border-bottom: 1px solid #000000">
+          <td scope="row">{{ event["start_date"] }}</td>
+          <td>{{event["start_time"]}}</td>
+          <td>{{event["duration"]}}</td>
+          <td>{{event["first_name"]}}</td>
+          <td>{{event["last_name"]}}</td>
+          <td>{{ event["email"] }}</td>
+          <td>{{ event["phone_number"]["comment"] }}</td>
+          <td>{{ event["summary"] }}</td>
+          <td><a href="#"><button type="submit" class="btn btn-primary" style="width: 100%">Edit</button></a></td>
+      {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+</div>
+</body>
+
+
+
+<!--<h1>All Bookings</h1>-->
+<!--{% for event in event_summary: %}-->
+<!--<p>{{ event }}</p>-->
+<!--{% endfor %}-->

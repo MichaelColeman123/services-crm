@@ -1,0 +1,62 @@
+{% include "header.html" %}
+<body>
+<div class="container">
+    <h3 class="mb-3">Create a New Appointment Template</h3>
+    <hr>
+    <form method="post">
+        <div class="row g-3">
+        <div class="col-sm-6">
+        <br>
+          <label for="event_name" class="form-label">Event Name</label>
+          <input type="text" class="form-control" id="event_name" placeholder="check in ..." name="event_name">
+        </div>
+        </div>
+        <br>
+        <div class="input-group col-12">
+          <span class="input-group-text">Add a Description</span>
+          <textarea class="form-control" name="event_description"></textarea>
+        </div>
+        <div class="row g-3">
+        <div class="col-sm-6">
+        <br>
+          <label for="location" class="form-label">Event Location (optional)</label>
+          <input type="text" class="form-control" id="location" placeholder="e.g. Pure Gym, Zoom, Phone Call" name="location">
+        </div>
+        </div>
+        <div class="row g-3">
+        <div class="col-sm-6">
+        <br>
+            <label for="colors">Choose a color: (optional)</label>
+
+            <select name="event_color" id="colors">
+              <option value="Light Blue">Light Blue </option>
+              <option value="Light Purple">Light Purple</option>
+              <option value="Light Green">Light Green</option>
+              <option value="Purple">Purple</option>
+              <option value="Pink">Pink</option>
+              <option value="Yellow">Yellow</option>
+              <option value="Orange">Orange</option>
+              <option value="Grey">Grey</option>
+              <option value="Dark Blue">Dark Blue</option>
+              <option value="Dark Green">Dark Green</option>
+              <option value="Red">Red</option>
+            </select>
+        </div>
+        </div>
+        <br>
+        <label for="recurrence">Make the event recur?</label>
+            <select name="recurrence" id="recurrence">
+                <option value="Never" selected="selected">Never</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+            </select>
+            <br>
+        <br>
+        <div>
+            <label for="meeting-duration">How long will this appointment be?</label><br>
+            <input style="margin-top: 15px; width: 4%" type="number" id="meeting-duration" name="meeting-duration"> minutes
+        </div>
+        <button type="submit" style="margin:40px 25%" class="btn btn-primary col-6">Create Template</button>
+    </form>
+</div>

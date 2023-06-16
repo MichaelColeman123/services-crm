@@ -1,0 +1,201 @@
+{% include "header.html" %}
+<!--<form method="post">-->
+
+<!--    <label for="meeting-time">Choose a time for your appointment:</label>-->
+<!--    <input type="datetime-local" id="meeting-time"-->
+<!--           name="meeting-time"-->
+<!--           min="2022-06-07T00:00" max="2024-06-14T00:00">-->
+<!--    <button type="submit">Submit</button>-->
+<!--</form>-->
+<html>
+    <head>
+        <title>AutoComplete</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">
+        </script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">
+        </script>
+
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
+            rel="stylesheet" type="text/css" />
+    </head>
+</html>
+<div class="container">
+        <h3 class="mb-3">Book an Appointment</h3>
+        <hr>
+        <br>
+
+<!--        <form method="post">-->
+<!--            <label for="template">Use one of your pre-made templates?</label>-->
+<!--            <select name="template" id="template">-->
+<!--                <option value="template_type" name="submit">No</option>-->
+<!--                {% for event in all_events: %}-->
+<!--                <option value="template_type" name="submit">{{event["event_summary"]}}</option>-->
+<!--                {% endfor %}-->
+<!--            </select>-->
+<!--            <br>-->
+<!--        <br>-->
+<!--        </form>-->
+        {% if client_chosen: %}
+        <form method="post">
+            <div class="row g-3">
+            <div class="col-sm-3">
+                <br>
+              <label for="Name2" class="form-label">Name</label>
+              <input type="text" class="form-control" id="Name2" readonly value="{{ selected_client.first_name }} {{ selected_client.last_name }}" placeholder="{{ selected_client.first_name}} {{ selected_client.last_name }}" name="name">
+            </div>
+            </div>
+            <div class="row g-3">
+            <div class="col-sm-3">
+            <br>
+              <label for="title2" class="form-label">Event Title</label>
+              <input type="text" class="form-control" id="title2" placeholder="Appointment title" name="title">
+            </div>
+            </div>
+            <br>
+            <div class="col-4">
+              <label class="form-label">Attendees Email</label>
+              <input type="email" class="form-control" readonly placeholder="{{ selected_client.email}}" value="{{ selected_client.email}}" name="attendees_email">
+            </div>
+            <div class="col-4">
+                <br>
+            <label class="form-label">Attendees Phone Number</label>
+              <input type="tel" class="form-control" readonly value="{{ selected_client.phone_number }}" placeholder="{{ selected_client.phone_number }}" name="attendees_phone_number">
+            </div>
+            <br>
+
+            <div class="input-group col-12">
+              <span class="input-group-text">Description</span>
+              <textarea class="form-control" style="resize: none" name="appointment_description"></textarea>
+            </div>
+            <br>
+            <div class="input-group col-12">
+              <span class="input-group-text">Location</span>
+              <textarea class="form-control" style="resize: none" name="appointment_location"></textarea>
+            </div>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                <br>
+                    <label for="colors2">Choose a color: (optional)</label>
+
+                    <select name="event_color" id="colors2">
+                      <option value="Light Blue">Light Blue</option>
+                      <option value="Light Purple">Light Purple</option>
+                      <option value="Light Green">Light Green</option>
+                      <option value="Purple">Purple</option>
+                      <option value="Pink">Pink</option>
+                      <option value="Yellow">Yellow</option>
+                      <option value="Orange">Orange</option>
+                      <option value="Grey">Grey</option>
+                      <option value="Dark Blue">Dark Blue</option>
+                      <option value="Dark Green">Dark Green</option>
+                      <option value="Red">Red</option>
+                    </select>
+                </div>
+                </div>
+            <br>
+                <div>
+                    <label for="meeting-time2">Choose a time for your appointment:</label><br>
+                    <input style="margin-top: 15px" type="datetime-local" id="meeting-time2"
+                           name="meeting-time"
+                           min="2022-06-07T00:00" max="2024-06-14T00:00">
+                </div>
+                <br>
+            <div>
+                    <label for="meeting-duration2">How long will this appointment be?</label><br>
+                    <input style="margin-top: 15px; width: 4%" type="number" id="meeting-duration2" name="meeting-duration"> minutes
+                </div>
+            <br>
+            <button type="submit" style="margin:40px 25%" class="btn btn-primary col-6" name="btn2" value="book_call">Create Appointment</button>
+        </form>
+{% elif not client_chosen: %}
+    <div>
+        <form method="post">
+            <label for="tags">Search for a client:</label><br>
+            <input type="text" placeholder="Type name here..." id="tags" name="client_search">
+            <script>
+              $( function() {
+                var availableTags = [
+                    {% for client in all_clients %}
+                        "{{client["first_name"]}} {{client["last_name"]}}",
+                    {% endfor %}
+                ];
+                $( "#tags" ).autocomplete({
+                  source: availableTags
+                });
+              } );
+            </script>
+            <button type="submit" class="btn btn-light" name="btn2" value="add_client">Add</button>
+        </form>
+        <form method="post">
+            <div class="row g-3">
+            <div class="col-sm-3">
+                <br>
+              <label for="Name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="Name" placeholder="John Doe" name="name">
+            </div>
+            </div>
+            <div class="row g-3">
+            <div class="col-sm-3">
+            <br>
+              <label for="title" class="form-label">Event Title</label>
+              <input type="text" class="form-control" id="title" placeholder="Appointment title" name="title">
+            </div>
+            </div>
+            <br>
+            <div class="col-4">
+              <label class="form-label">Attendees Email</label>
+              <input type="email" class="form-control" placeholder="john.doe@example.com" name="attendees_email">
+            </div>
+            <div class="col-4">
+                <br>
+            <label class="form-label">Attendees Phone Number</label>
+              <input type="tel" class="form-control" placeholder="+44 1234 567890" name="attendees_phone_number">
+            </div>
+            <br>
+            <div class="input-group col-12">
+              <span class="input-group-text">Description</span>
+              <textarea class="form-control" style="resize: none" name="appointment_description"></textarea>
+            </div>
+            <br>
+            <div class="input-group col-12">
+              <span class="input-group-text">location</span>
+              <textarea class="form-control" style="resize: none" name="appointment_location"></textarea>
+            </div>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                <br>
+                    <label for="colors">Choose a color: (optional)</label>
+
+                    <select name="event_color" id="colors">
+                      <option value="Light Blue">Light Blue</option>
+                      <option value="Light Purple">Light Purple</option>
+                      <option value="Light Green">Light Green</option>
+                      <option value="Purple">Purple</option>
+                      <option value="Pink">Pink</option>
+                      <option value="Yellow">Yellow</option>
+                      <option value="Orange">Orange</option>
+                      <option value="Grey">Grey</option>
+                      <option value="Dark Blue">Dark Blue</option>
+                      <option value="Dark Green">Dark Green</option>
+                      <option value="Red">Red</option>
+                    </select>
+                </div>
+                </div>
+                <div>
+                    <label for="meeting-time">Choose a time for your appointment:</label><br>
+                    <input style="margin-top: 15px" type="datetime-local" id="meeting-time"
+                           name="meeting-time"
+                           min="2022-06-07T00:00" max="2024-06-14T00:00">
+                </div>
+                <br>
+            <div>
+                    <label for="meeting-duration">How long will this appointment be?</label><br>
+                    <input style="margin-top: 15px; width: 4%" type="number" id="meeting-duration" name="meeting-duration"> minutes
+                </div>
+            <br>
+            <button type="submit" style="margin:40px 25%" class="btn btn-primary col-6" name="btn2" value="book_call">Create Appointment</button>
+        </form>
+    </div>
+</div>
+{% endif %}

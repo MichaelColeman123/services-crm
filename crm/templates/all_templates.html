@@ -1,0 +1,48 @@
+{% include "header.html" %}
+create cards for each template
+<body xmlns="http://www.w3.org/1999/html">
+<div class="container">
+  <h4 class="mb-3">All Event Templates</h4>
+  <form method="post" style="margin-left: 39%">
+    <button name="client_type" class="btn btn-secondary" value="all_clients">4 Week Call</button>
+    <button name="client_type" class="btn btn-secondary" value="active_clients">New Client Call</button>
+  </form>
+    <table class="table">
+      <thead>
+        <tr style="border-bottom: 1px solid #000000">
+          <th scope="col">Type</th>
+          <th scope="col">Duration</th>
+          <th scope="col">Location</th>
+          <th scope="col">Description</th>
+          <th scope="col">Recurring</th>
+          <th scope="col">Book</th>
+          <th scope="col">Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid #000000">
+          <td scope="row">No template</td>
+          <td>n/a</td>
+          <td>n/a</td>
+          <td>n/a</td>
+          <td>n/a</td>
+          <td><a href="book-call/no-template"><button type="submit" class="btn btn-primary" style="width: 100%">Book</button></a></td>
+          <td><a href="#"><button type="submit" class="btn btn-primary" style="width: 100%">Edit</button></a></td>
+        </tr>
+      </tbody>
+      {% for event in all_events: %}
+      <tbody>
+        <tr style="border-bottom: 1px solid #000000">
+          <td scope="row">{{ event["event_summary"] }}</td>
+          <td>{{event["duration"]}}</td>
+          <td>{{event["location"]}}</td>
+          <td>{{event["description"]}}</td>
+          <td>freq /no</td>
+          <td><a href="book-call/{{ event['event_summary']}}"><button type="submit" class="btn btn-primary" style="width: 100%">Book</button></a></td>
+          <td><a href="#"><button type="submit" class="btn btn-primary" style="width: 100%">Edit</button></a></td>
+      {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+</div>
+</body>

@@ -1,0 +1,50 @@
+{% include "header.html" %}
+<body xmlns="http://www.w3.org/1999/html">
+<div class="container">
+  <h4 class="mb-3">All Clients</h4>
+  <form method="post" style="margin-left:32%">
+    <button name="client_type" class="btn btn-secondary" value="all_clients">All Clients</button>
+    <button name="client_type" class="btn btn-secondary" value="active_clients">Active Clients</button>
+    <button name="client_type" class="btn btn-secondary" value="paused_clients">Paused Clients</button>
+    <button name="client_type" class="btn btn-secondary" value="pending_clients">Starting Soon</button>
+    <button name="client_type" class="btn btn-secondary" value="old_clients">Old Clients</button>
+  </form>
+    <table class="table">
+      <thead>
+        <tr style="border-bottom: 1px solid #000000">
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone No</th>
+          <th scope="col">Goals</th>
+          <th scope="col">Status</th>
+          <th scope="col">Next Invoice</th>
+          <th scope="col">More</th>
+        </tr>
+      </thead>
+      {% for client in all_pt_clients: %}
+      <tbody>
+        <tr style="border-bottom: 1px solid #000000">
+          <td>{{client["first_name"]}}</td>
+          <td>{{client["last_name"]}}</td>
+          <td>{{client["email"]}}</td>
+          <td>{{client["phone_number"]}}</td>
+          <td>{{client["client_goals"]}}
+          {% if client["is_client"] == 'Current Client' : %}
+          <td style="color:#4cbb17; font-weight: bold; font-size:18px">{{client["is_client"]}}</td>
+          {% elif client["is_client"] == 'Paused Client' : %}
+          <td style="color:orange; font-weight: bold; font-size:18px">{{client["is_client"]}}</td>
+          {% elif client["is_client"] == 'Old Client' : %}
+          <td style="color:red; font-weight: bold; font-size:18px">{{client["is_client"]}}</td>
+          {% elif client["is_client"] == 'Starting Soon' : %}
+          <td style="color:blue; font-weight: bold; font-size:18px">{{client["is_client"]}}</td>
+          {% endif %}
+          <td>(date)</td>
+          <td><a href="client-profile/{{client['first_name']}}/{{client['last_name']}}/{{client['id']}}"><button type="submit" class="btn btn-primary">More info</button></a></td>
+
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+</div>
+</body>

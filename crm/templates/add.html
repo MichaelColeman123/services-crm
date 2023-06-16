@@ -1,0 +1,99 @@
+{% include "header.html" %}
+<body>
+    <div class="container">
+        <h3 class="mb-3">Add Client</h3>
+        <hr>
+        <form method="post">
+            <div class="row g-3">
+            <div class="col-sm-6">
+                <br>
+              <label for="firstName" class="form-label">First name</label>
+              <input type="text" class="form-control" id="firstName" placeholder="John" name="first_name">
+            </div>
+            <div class="col-sm-6">
+                <br>
+              <label for="lastName" class="form-label">Last name</label>
+              <input type="text" class="form-control" id="lastName" placeholder="Doe" name="last_name">
+            </div>
+            </div>
+            <br>
+             <label>Gender</label>
+                <div class="list-group">
+                    <div class="list-group col-2">
+                    <label class="list-group-item d-flex gap-2">
+                      <input class="form-check-input flex-shrink-0" type="radio" id="gender_radio1" name="GenderRadio" value="Male">
+                      <span>
+                       Male
+                      </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
+                      <input class="form-check-input flex-shrink-0" type="radio" name="GenderRadio" id="gender_radio2" value="Female">
+                      <span>
+                        Female
+                      </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
+                      <input class="form-check-input flex-shrink-0" type="radio" name="GenderRadio" id="gender_radio3" value="Other">
+                      <span>
+                        Other
+                      </span>
+                    </label>
+                    </div>
+            <br>
+            <div>
+                <label class="form-label">D.O.B</label>
+                <input type="date" class="form-control" name="date_of_birth" style="width:11%">
+            </div>
+            <div class="col-12">
+                <br>
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" placeholder="john.doe@example.com" name="email">
+            </div>
+            <div class="col-12">
+                <br>
+            <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" placeholder="+44 1234 567890" name="phone_number">
+            </div>
+            <br>
+            <div class="input-group col-12">
+              <span class="input-group-text">Goals</span>
+              <textarea class="form-control" name="client-goals"></textarea>
+            </div>
+            <br>
+            <label>Client Status</label>
+                <div class="list-group">
+                    <div class="list-group">
+                    <label class="list-group-item d-flex gap-2">
+                      <input class="form-check-input flex-shrink-0" type="radio" id="listGroupRadios1" name="listGroupRadios" value="Current Client">
+                      <span>
+                        Current client
+                        <small class="d-block text-body-secondary">They are currently training.</small>
+                      </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
+                      <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios" id="listGroupRadios2" value="Starting Soon">
+                      <span>
+                        Staring soon
+                        <small class="d-block text-body-secondary">They have agreed to start training but just need to wait a few weeks.</small>
+                      </span>
+                    </label>
+                    </div>
+                    <br>
+                    <div>
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" name="start_date" style="width:11%">
+                    </div>
+                    <br>
+                <div class="input-group col-12">
+                  <span class="input-group-text">Notes</span>
+                  <textarea name="client_notes" class="form-control"></textarea>
+                </div>
+                </div>
+                </div>
+            <br>
+            <button type="submit" style="margin:40px 25%" class="btn btn-primary col-6">Add client</button>
+
+        </form>
+    </div>
+</body>
+</html>
